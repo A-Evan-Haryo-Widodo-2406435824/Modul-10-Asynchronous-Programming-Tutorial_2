@@ -38,3 +38,11 @@ Pada program ini, asynchronous programming digunakan agar server dapat menangani
 ![experiment 2.2](docs/experiment_2_2.png)
 
 Port `8080` pada `127.0.0.1:8080` mendefinisikan port baru yang digunakan oleh websocket server untuk menerima koneksi dari client. Perubahan port ini harus dilakukan pada dua sisi, yaitu server dan client. Server perlu melakukan bind ke port `8080`, sedangkan client perlu melakukan koneksi ke URI websocket yang juga menggunakan port `8080`. Jika server sudah berjalan pada port `8080`, tetapi client masih mencoba terhubung ke port `2000`, maka koneksi tidak akan berhasil. Hal ini terjadi karena client mencari websocket server pada alamat yang berbeda dari server yang sedang berjalan. Maka dari itu, alamat websocket pada server dan client harus konsisten. Lalu, koneksi tetap berada pada protocol websocket karena server dan client mendefinisikan `ws_stream` yang yang menerima koneksi TCP sebagai websocket stream dan `ws://` mendefinisikan protokol websocket dengan host `127.0.0.1` dan port `8080`.
+
+## Experiment 2.3: Small changes, add IP and Port
+### Screenshot-3
+
+![experiment 2.3](docs/experiment_2_3.png)
+
+### Penjelasan
+Pada kode di file server.rs, `addr` mendefinisikan alamat socket dari client yang mengirim pesan. Alamat tersebut terdiri dari IP dan port client. Sementara itu, `text` mendefinisikan isi pesan yang dikirim oleh client. Selanjutnya, `{addr}: {text}` digunakan untuk menggabungkan informasi alamat pengirim dengan isi pesan. Selain itu, saya juga menambahkan informasi tambahan, seperti adanya stream message untuk client yang baru join, yakni `Evan's Computer - From Server: Welcome to chat! Type a message` untuk memberi tahu client bahwa mereka dapat melakukan pengiriman pesan. Saya juga menambahkan `Evan's Computer - From Client {addr}: {text}` yang di-print di terminal server untuk memberi informasi bahwa ada pesan yang dikirim dari client tertentu. Lalu, `Evan's Computer - From Server {addr}: {text}` dituliskan ke terminal client untuk memberi tahu bahwa pesan yang dikirimkan oleh client ditangkap server dan di-broadcast oleh server.
